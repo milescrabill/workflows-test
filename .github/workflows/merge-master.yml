@@ -9,6 +9,6 @@ jobs:
     # checks out out repo to $GITHUB_WORKSPACE
     - uses: actions/checkout@v1
     - uses: ./merge-downstream
-      secrets:
-      - "GITHUB_TOKEN"
-      - "DEPLOY_KEY"
+      env:
+      - ${{ secrets.GITHUB_TOKEN }}
+      - ${{ secrets.DEPLOY_KEY }}
