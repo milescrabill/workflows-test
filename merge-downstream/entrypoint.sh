@@ -32,6 +32,8 @@ if [[ -z "${DEPLOY_KEY}" ]]; then
 fi
 echo "$DEPLOY_KEY" | ssh-add -
 
+ssh-add -l
+
 if [[ -n "${TOKEN}" ]]; then
     # this is automatically provided if passed
     # see: https://help.github.com/en/articles/virtual-environments-for-github-actions#github_token-secret
