@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # exit on errors
 set -exv
 set -o pipefail
