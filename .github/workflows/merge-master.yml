@@ -10,5 +10,5 @@ jobs:
     - uses: actions/checkout@v1
     - uses: ./merge-downstream
       env:
-      - ${{ secrets.GITHUB_TOKEN }}
-      - ${{ secrets.DEPLOY_KEY }}
+        TOKEN: ${{ secrets.DEPLOY_KEY }}
+        DEPLOY_KEY: ${{ secrets.GITHUB_TOKEN }}
