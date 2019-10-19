@@ -34,6 +34,10 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
     exit 1
 fi
 
+# actions/checkout step has to be run beforehand
+# this dir is mounted into the container
+cd $GITHUB_WORKSPACE
+
 # get branches for all remotes
 git fetch --all
 

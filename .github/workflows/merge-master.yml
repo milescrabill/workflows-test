@@ -6,6 +6,8 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
+    # checks out out repo to $GITHUB_WORKSPACE
+    - uses: actions/checkout@v1
     - uses: ./merge-downstream
       secrets:
       - "GITHUB_TOKEN"
