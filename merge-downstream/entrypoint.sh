@@ -50,6 +50,7 @@ cd $GITHUB_WORKSPACE
 # FIXME remove
 echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 git remote -v
+ssh -T git@github.com
 
 # get branches for all remotes
 git fetch --all

@@ -8,6 +8,8 @@ jobs:
     steps:
     # checks out out repo to $GITHUB_WORKSPACE
     - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
     - uses: ./merge-downstream
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
