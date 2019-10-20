@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # exit on errors
-set -exv
+# FIXME
+# set -exv
+set -xv
 set -o pipefail
 
 # if set, use that, else default
