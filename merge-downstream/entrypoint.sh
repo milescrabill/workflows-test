@@ -76,7 +76,7 @@ function open_and_merge_pull_request() {
     PR_URL="$(hub pr list -b $1 -h ${GITHUB_REF} -s open -f '%U')"
     if [[ -z "$PR_URL" ]]; then
         # PR did not exist, create it
-        PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m \"${PULL_REQUEST_TITLE}\")"
+        PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m "${PULL_REQUEST_TITLE}")"
     fi
 
     if [[ -z "$PR_URL" ]]; then
