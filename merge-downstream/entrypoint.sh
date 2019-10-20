@@ -18,9 +18,6 @@ git config --global push.default matching
 mkdir -p ~/.ssh
 ssh-agent -a ${SSH_AUTH_SOCK} > /dev/null
 
-# FIXME remove
-ssh-keyscan github.com >> ~/.ssh/known_hosts
-
 # add github's pubkey to known_hosts
 echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
 
@@ -31,8 +28,6 @@ if [[ -z "${DEPLOY_KEY}" ]]; then
     exit 1
 fi
 echo "$DEPLOY_KEY" | ssh-add -
-
-ssh-add -l
 
 if [[ -n "${TOKEN}" ]]; then
     # this is automatically provided if passed
@@ -51,6 +46,10 @@ fi
 # actions/checkout step has to be run beforehand
 # this dir is mounted into the container
 cd $GITHUB_WORKSPACE
+
+# FIXME remove
+git remote -v
+ssh -T git@github.com
 
 # get branches for all remotes
 git fetch --all
