@@ -1,6 +1,11 @@
 name: merge to downstream branches
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'master'
+      - 'release/*'
+      - 'develop'
 
 jobs:
   merge:
