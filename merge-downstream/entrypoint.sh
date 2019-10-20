@@ -5,14 +5,17 @@ set -exv
 set -o pipefail
 
 # if set, use that, else default
-export SSH_AUTH_SOCK=${SSH_AUTH_SOCK:-/tmp/ssh_agent.sock}
+export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-/tmp/ssh_agent.sock}"
+export PULL_REQUEST_TITLE="${PULL_REQUEST_TITLE:-Automated Merge}"
+export GIT_USER_EMAIL="${GIT_USER_EMAIL:-automerge@example.com}"
+export GIT_USER_NAME="${GIT_USER_NAME:-automerge}"
 
 # use ssh urls
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 
 # git config for merge commits
-git config --global user.email "${GIT_USER_EMAIL:-automerge@example.com}"
-git config --global user.name "${GIT_USER_NAME:-automerge}"
+git config --global user.email "${GIT_USER_EMAIL}"
+git config --global user.name "${GIT_USER_NAME}"
 git config --global push.default matching
 
 mkdir -p ~/.ssh
@@ -73,7 +76,7 @@ function open_and_merge_pull_request() {
     PR_URL="$(hub pr list -b $1 -h ${GITHUB_REF} -s open -f '%U')"
     if [[ -z "$PR_URL" ]]; then
         # PR did not exist, create it
-        PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m \"${PULL_REQUEST_TITLE:-Automated merge}\")"
+        PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m "${PULL_REQUEST_TITLE}")"
     fi
 
     if [[ -z "$PR_URL" ]]; then
