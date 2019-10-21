@@ -1,0 +1,9 @@
+name: merge to downstream branches
+
+on: [push]
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ludeeus/actions/shellcheck@master
