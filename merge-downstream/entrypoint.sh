@@ -70,30 +70,32 @@ function open_and_merge_pull_request() {
 
     # subshell with +e so we continue on errors
     (
-    set +e
+        set +e
 
-    # check for existing PRs
-    PR_URL="$(hub pr list -b $1 -h ${GITHUB_REF} -s open -f '%U')"
-    if [[ -z "$PR_URL" ]]; then
-        # PR did not exist, create it
-        PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m "${PULL_REQUEST_TITLE}")"
-    fi
+        # check for existing PRs
+        PR_URL="$(hub pr list -b $1 -h ${GITHUB_REF} -s open -f '%U')"
+        if [[ -z "$PR_URL" ]]; then
+            # PR did not exist, create it
+            PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m "${PULL_REQUEST_TITLE}")"
+        fi
 
-    if [[ -z "$PR_URL" ]]; then
-        echo "Failed to get PR URL for merge of ${GITHUB_REF} into $1"
-    else
-        # checkout destination branch,
-        # merge PR and push merge commit
-        git fetch origin "${1}" && \
-        git checkout "${1}" && \
-        git reset --hard origin/"${1}"
-        # create merge commit
-        hub merge "${PR_URL}"
-        # pushes merge commit
-        git push origin ${1} && \
-        echo "DEBUG: successfully pushed ${GITHUB_REF} merged into $1" || \
-        echo "DEBUG: pushing ${GITHUB_REF} merged into $1 failed"
-    fi
+        if [[ -z "$PR_URL" ]]; then
+            echo "Failed to get PR URL for merge of ${GITHUB_REF} into $1"
+        else
+            # checkout destination branch,
+            # merge PR and push merge commit
+            git fetch origin "${1}" && \
+            git checkout "${1}" && \
+            git reset --hard origin/"${1}"
+            # create merge commit
+            hub merge "${PR_URL}" && \
+            echo "DEBUG: successfully merged ${GITHUB_REF} into $1" || \
+            echo "DEBUG: merging ${GITHUB_REF} into $1 failed"
+            # pushes merge commit
+            git push origin ${1} && \
+            echo "DEBUG: successfully pushed ${GITHUB_REF} merged into $1" || \
+            echo "DEBUG: pushing ${GITHUB_REF} merged into $1 failed"
+        fi
     )
 }
 
