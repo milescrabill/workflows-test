@@ -19,7 +19,7 @@ git config --global user.name "${GIT_USER_NAME}"
 git config --global push.default matching
 
 mkdir -p ~/.ssh
-ssh-agent -a ${SSH_AUTH_SOCK} > /dev/null
+ssh-agent -a "${SSH_AUTH_SOCK}" > /dev/null
 
 # FIXME
 # adding the host key doesn't work ?!, this is an unfortunate override
@@ -52,7 +52,7 @@ fi
 
 # actions/checkout step has to be run beforehand
 # this dir is mounted into the container
-cd $GITHUB_WORKSPACE
+cd "${GITHUB_WORKSPACE}"
 
 # get branches for all remotes
 git fetch --all
@@ -64,7 +64,7 @@ function open_and_merge_pull_request() {
     echo "DEBUG: making pull request from ${GITHUB_REF} to $1"
 
     # if $1 branch does not exist origin
-    if [[ -z "$(git ls-remote origin $1)" ]]; then
+    if [[ -z "$(git ls-remote origin "$1")" ]]; then
     echo "Could not find expected branch '$1' on remote 'origin'"
     fi
 
@@ -73,10 +73,10 @@ function open_and_merge_pull_request() {
         set +e
 
         # check for existing PRs
-        PR_URL="$(hub pr list -b $1 -h ${GITHUB_REF} -s open -f '%U')"
+        PR_URL="$(hub pr list -b "$1" -h "${GITHUB_REF}" -s open -f '%U')"
         if [[ -z "$PR_URL" ]]; then
             # PR did not exist, create it
-            PR_URL="$(hub pull-request -b $1 -h ${GITHUB_REF} -m "${PULL_REQUEST_TITLE}")"
+            PR_URL="$(hub pull-request -b "$1" -h "${GITHUB_REF}" -m "${PULL_REQUEST_TITLE}")"
         fi
 
         if [[ -z "$PR_URL" ]]; then
@@ -92,7 +92,7 @@ function open_and_merge_pull_request() {
             echo "DEBUG: successfully merged ${GITHUB_REF} into $1" || \
             echo "DEBUG: merging ${GITHUB_REF} into $1 failed"
             # pushes merge commit
-            git push origin ${1} && \
+            git push origin "${1}" && \
             echo "DEBUG: successfully pushed ${GITHUB_REF} merged into $1" || \
             echo "DEBUG: pushing ${GITHUB_REF} merged into $1 failed"
         fi
