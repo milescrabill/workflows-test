@@ -1,7 +1,5 @@
-FROM ubuntu:latest
-
-RUN apt update
-RUN apt install -y shellcheck
+# recommended in official repo https://github.com/koalaman/shellcheck
+FROM koalaman/shellcheck-alpine
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +X /entrypoint.sh
