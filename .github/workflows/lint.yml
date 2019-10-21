@@ -1,4 +1,4 @@
-name: merge to downstream branches
+name: lint
 
 on: [push]
 
