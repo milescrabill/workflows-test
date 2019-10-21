@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - uses: ludeeus/actions/shellcheck@master
+      - uses: ./shellcheck
