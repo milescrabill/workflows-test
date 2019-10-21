@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # exit on errors
-set -exv
+set -ex
 set -o pipefail
 
 # if set, use that, else default
